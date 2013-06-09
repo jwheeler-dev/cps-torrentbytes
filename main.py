@@ -41,30 +41,30 @@ class TorrentBytes(TorrentProvider):
             html = BeautifulSoup(data)
 
             try:
-				result_table = html.find('table', attrs = {'border' : '1'})
-				if not result_table:
-					return
+		result_table = html.find('table', attrs = {'border' : '1'})
+		if not result_table:
+                    return
 				
-				entries = result_table.find_all('tr')
+		entries = result_table.find_all('tr')
 				
-				for result in entries[1:]:
-					cells = result.find_all('td')
+		for result in entries[1:]:
+                    cells = result.find_all('td')
 					
-					link = cells[1].find('a', attrs = {'class' : 'index'})
+                    link = cells[1].find('a', attrs = {'class' : 'index'})
 					
-					full_id = link['href'].replace('details.php?id=', '')
-					torrent_id = full_id[:6]
-					name = link.contents[0]
-					url = self.urls['download'] % (torrent_id, name)
-					detail_url = self.urls['detail'] % torrent_id
-					size = cells[6].contents[0] + cells[6].contents[2]
-					seeders = cells[8].find('span').contents[0]
-					leechers = cells[9].find('span').contents[0]
+                    full_id = link['href'].replace('details.php?id=', '')
+                    torrent_id = full_id[:6]
+                    name = link.contents[0]
+                    url = self.urls['download'] % (torrent_id, name)
+                    detail_url = self.urls['detail'] % torrent_id
+                    size = cells[6].contents[0] + cells[6].contents[2]
+                    seeders = cells[8].find('span').contents[0]
+                    leechers = cells[9].find('span').contents[0]
 					
-					#log.debug('id: %s  name: %s  url: %s  details: %s  size: %s  seeders: %s  leechers: %s', (torrent_id, name, url, detail_url, size, seeders, leechers))
+                    #log.debug('id: %s  name: %s  url: %s  details: %s  size: %s  seeders: %s  leechers: %s', (torrent_id, name, url, detail_url, size, seeders, leechers))
 					
-					results.append({
-						'id': torrent_id,
+                    results.append({
+			'id': torrent_id,
                         'name': name,
                         'url': self.urls['download'] % (torrent_id, name),
                         'detail_url': self.urls['detail'] % torrent_id,
